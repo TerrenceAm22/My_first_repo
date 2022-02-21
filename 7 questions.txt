@@ -1,0 +1,107 @@
+SITUATION  
+ 
+You are a business analyst working at Deloitte. You already know SQL, and you have both 
+a more junior analyst and a more senior analyst working on your team. In this exercise, you 
+will help the junior analyst make their SQL commands work correctly and help the more 
+senior analyst finish off some of their queries and write some queries of your own.  
+ 
+Your client, the state of Iowa, has some urgent questions that need answering. They are 
+evaluating the tax revenue and its implication of consumption. They’d like to better 
+understand the dynamics of the alcohol market in their state. 
+ They hire your team of query writers and problem solvers to analyze their data. Your team is 
+counting on your expertise and guidance to answer the stakeholder’s questions! 
+ 
+EXERCISES 
+ QUESTION 1: 
+ 
+The junior analyst wants to get the item numbers and descriptions of products with a case 
+cost of at least 100 and pack size at least 12. She writes: 
+
+SELECT item_no item_description    
+FROM products  
+WHERE case_cost >=100 
+WHERE pack >= 12 
+
+ 
+ 
+Why isn’t this query working? 
+Needs a coma after item_no, item_description in Select statement.
+Also she needs to add AND after the the first WHERE command. 
+Finally a semicolon at the end.
+ QUESTION 2:
+ 
+She now wants to get a list of all combinations of “category” and “vendor” in the data. She 
+knows that she can select these two columns using: 
+ 
+SELECT category_name, vendor_name    
+FROM products  
+ 
+What else does she need to add to accomplish her goal?
+She needs to add the DISTINCT command in select statement.
+ 
+SQL  LAB:   Mission ImposSQL   
+2 | P a g e  
+ 
+ 
+ 
+QUESTION 3: 
+ 
+Her query to get all the products where proof is greater than 85 seems right, but it’s 
+generating an error: 
+ SELECT * FROM products WHERE proof > 85;  
+How could you fix it? 
+She needs to add the cast where 
+(SELECT * 
+FROM products
+WHERE proof::numeric > 85;)
+ 
+ 
+QUESTION 4: 
+ 
+This analyst likes sweet drinks, and she wants to write a query that shows all the vendors 
+that have products in a few categories she has identified:  
+ 
+‘PEACH BRANDIES’ 
+‘FLAVORED VODKA’ 
+‘FLAVORED RUM’  
+ 
+Her SQL has improved based on your feedback, so she correctly writes:  
+ 
+SELECT DISTINCT vendor_name  
+FROM products 
+WHERE category_name  = ‘PEACH BRANDIES’ 
+OR category_name = ‘FLAVORED VODKA’ 
+OR category_name = ‘FLAVORED RUM’ 
+ 
+ 
+How could you make this query shorter and more consistent with SQL best practices? 
+The best way is to replace the OR commands with IN in quering multiple conditions at one time. 
+ 
+QUESTION 5: 
+ 
+Now you are given an area to analyze independently: the state of Iowa now wants you to do 
+analysis on all “IMPORTED” products, as they want to know which foreign products are 
+coming into their state.  
+ 
+First, select all products with “IMPORTED” in the category name. 
+SELECT category_name
+FROM products
+WHERE category_name ilike ('imported%')
+ 
+ 
+QUESTION 6:  
+ 
+Now, get the top 10 vendors of imported products, ranked by sales. 
+select vendor, category_name, avg(shelf_price)::numeric::money
+from products 
+where category_name ilike ('imported%') 
+group by 1,2 
+limit 10;
+
+
+  
+QUESTION 7: 
+ 
+Now, of the vendors that have greater than $100,000 in sales, which one has the highest 
+average sales price? Order these vendors by highest to lowest average sales price. 
+ 
